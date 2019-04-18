@@ -33,6 +33,7 @@ Or you can also use Git to clone the repository from GitHub and install it manua
     cd tweepy
     python setup.py install
 
+More information in: [Tweepy](https://tweepy.readthedocs.io/en/v3.5.0/)
 
 ### Installing Pandas
 Pandas can be installed via pip from PyPI. [Pandas](https://pandas.pydata.org/pandas-docs/stable/install.html)
@@ -40,9 +41,14 @@ Pandas can be installed via pip from PyPI. [Pandas](https://pandas.pydata.org/pa
     pip install pandas
 
 ### Installing scikit-learn
-If you already have a working installation of numpy and scipy, the easiest way to install scikit-learn is using pip
+If you already have a working installation of numpy and scipy, the easiest way to install scikit-learn is using pip. [scikit-learn](https://scikit-learn.org/stable/install.html)
 
     pip install -U scikit-learn
+
+### Installing Tensorflow
+Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.tensorflow.org/install)
+
+    pip install tensorflow
 
 
 ## Author
