@@ -44,10 +44,13 @@ def location (row):
 # profile banner contains a link ('http') from profile_banner_url
 # change to if the description contains
 def profile_banner (row):
-    if row['profile_banner_url'] == '':
+    try:
+        if row['profile_banner_url'] == '':
+            return 0
+        else:
+            return 1
+    except:
         return 0
-    else:
-        return 1
 
 # has done NUM tweets
 def tweets_written (row, num):
