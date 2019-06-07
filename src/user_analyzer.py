@@ -100,7 +100,23 @@ if __name__ == '__main__':
 
     #print_user( user )
     # load the model from disk
-    model = joblib.load( 'models/randomForest_model.sav' )
+    models_string = "1-\tRandom Forest FakeFollowers model\n2-\tRandom Forest SpamBots model\n3-\tRandom Forest FFandSB model\n"
+    try:
+        mode = int( raw_input( models_string+'Select the model you want to use: ' ) )
+    except ValueError:
+        print "ERROR: Not a number"
+        exit()
+    if mode > 3 or mode < 1:
+        print "ERROR: Not a valid option"
+        exit()
+
+    switcher = {
+        1: 'models/randomForest_fakeFollowers_model.sav',
+        2: 'models/randomForest_mix_model.sav',
+        3: 'models/randomForest_spamBots_model.sav'
+    }
+    model = joblib.load( switcher.get(mode, "Invalid value") )
+
     # analyzing the user with the loaded model
     analyze_user( model, user )
     for friend in user.friends( count=200 ):

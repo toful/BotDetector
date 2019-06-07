@@ -38,6 +38,7 @@ class StdOutListener( StreamListener ):
 
     def on_data(self, data):
         tweet = json.loads(data)
+        print '.'
         #print tweet['user']['screen_name'], tweet['text'].encode('ascii', 'ignore')
         self.csvWriter.writerow([   tweet['id'], 
                                     tweet['user']['id'],
@@ -51,7 +52,7 @@ class StdOutListener( StreamListener ):
                                     tweet['entities']['user_mentions'],
                                     tweet['created_at'],
                                     tweet['text'].encode('ascii', 'ignore') ])
-        self.csvWriter2.writerow([   tweet['id'],
+        self.csvWriter2.writerow([  tweet['id'],
                                     tweet['user']['id'], 
                                     tweet['in_reply_to_status_id'], 
                                     tweet['in_reply_to_user_id'] ])
@@ -73,7 +74,7 @@ if __name__ == '__main__':
     l = StdOutListener()
     stream = Stream( auth, l )
     # This line filter Twitter Streams to capture data containing the hashtag specified by argument
-    stream.filter(  track=[ '#Elecciones2019', '#Municipales2019' ] )
+    stream.filter(  track=[ '#Elecciones2019', '#EleccionesMunicipales2019', '#EleccionsMunicipals2019', '#Elecciones26M' ] )
 
 
     #for tweet in tweepy.Cursor( api.search, q='#Elecciones2019', count=100 ).items(1):
