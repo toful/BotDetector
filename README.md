@@ -45,6 +45,17 @@ If you already have a working installation of numpy and scipy, the easiest way t
 
     pip install -U scikit-learn
 
+### Installing matplotlib
+Matplotlib can be installed via pip from PyPI. [Matplotlib](https://matplotlib.org/3.1.0/users/installing.html) 
+
+    python -m pip install -U matplotlib
+
+### Installing seaborn
+Seaborn can be installed via pip from PyPI. [Seaborn](https://seaborn.pydata.org/installing.html) 
+
+    pip install seaborn
+
+
 ### Installing Tensorflow
 Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.tensorflow.org/install)
 

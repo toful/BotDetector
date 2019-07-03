@@ -1,4 +1,3 @@
-#Import the necessary methods from tweepy library
 import sys
 import os
 import tweepy
