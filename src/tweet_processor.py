@@ -8,6 +8,9 @@ import codecs
 import csv
 import pandas as pd
 
+import urllib2
+import re
+
 #Variables that contains the user credentials to access Twitter API 
 #   consumer_key
 #   consumer_secret
@@ -22,6 +25,17 @@ def read_credentials(filename):
         for line in fileref.readlines():
             credentials += [ line.splitlines()[0] ]
 
+
+def get_user_ids_of_post_likes(post_id):
+    try:
+        json_data = urllib2.urlopen( 'https://twitter.com/i/activity/favorited_popup?id=' + str(post_id) ).read()
+        found_ids = re.findall( r'data-user-id=\\"+\d+', json_data )
+        unique_ids = list( set([re.findall(r'\d+', match)[0] for match in found_ids]))
+        return unique_ids
+    except urllib2.HTTPError:
+        return False
+
+
 if __name__ == '__main__':
 
     #reading the authetification credentials
@@ -29,14 +43,14 @@ if __name__ == '__main__':
     #This handles Twitter authetification and the connection to Twitter Streaming API
     auth = OAuthHandler( credentials[0], credentials[1] )
     auth.set_access_token( credentials[2], credentials[3] )   
-    api = tweepy.API(auth)
+    api = tweepy.API( auth, wait_on_rate_limit=True )
 
     #Loading datasets
     path = os.getcwd() 
     os.chdir( "/home/toful/Documents/DataSets/" )
 
-    #tweets = pd.read_csv( 'tweets.csv' )
-    tweets = pd.read_csv( 'tweets_little.csv' )
+    tweets = pd.read_csv( 'tweets.csv' )
+    #tweets = pd.read_csv( 'tweets_little.csv' )
     os.chdir( path )
 
     #Generating the Users File
@@ -48,6 +62,7 @@ if __name__ == '__main__':
             users[ user ] = 1
     # Open/Create a file to append data
     csvFile = open( 'results/users.csv', 'a' )
+    #csvFile = open( 'results_little/users_little.csv', 'a' )
     # Use csv Writer
     csvWriter = csv.writer( csvFile )
     csvWriter.writerow( [ 'user_id', 'num_tweets' ] )
@@ -57,6 +72,7 @@ if __name__ == '__main__':
 
 
     #Generating the Users File and the Retweet links file
+    print "Generating the Users File and the Retweet links file"
     users_retweet_links = {}
     retweet_links = {}
     for i in range( 0, len(tweets) ):
@@ -82,28 +98,64 @@ if __name__ == '__main__':
                 else:
                     users_retweet_links[ user_rt ] = 1
         except:
-            print("An exception ocurred")
+            print("An exception ocurred with user", user)
 
     csvFile = open( 'results/users_rt.csv', 'a' )
+    #csvFile = open( 'results_little/users_rt_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
     csvWriter.writerow( [ 'user_id', 'num_rt' ] )
     for key,value in users_retweet_links.items():
         csvWriter.writerow( [ key, value ] )
     csvFile.close()
     csvFile = open( 'results/links_rt.csv', 'a' )
+    #csvFile = open( 'results_little/links_rt_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
-    csvWriter.writerow( [ 'link', 'num_interactions' ] )
+    csvWriter.writerow( [ 'user1', 'user2', 'num_interactions' ] )
     for key,value in retweet_links.items():
-        csvWriter.writerow( [ key, value ] )
+        csvWriter.writerow( [ key[0], key[1], value ] )
     csvFile.close()
 
+    #Generating the Users File and the Favourite links file
+    print "Generating the Users File and the Favourite links file"
+    users_favourite_links = {}
+    favourite_links = {}
+    for i in range( 0, len(tweets) ):
+        tweet_id = tweets['tweet_id'][i]
+        user = tweets['user_id'][i]
 
+        if user in users_favourite_links.keys():
+            users_favourite_links[ user ] += 1
+        else:
+            users_favourite_links[ user ] = 1
 
+        try:
+            for user_fav in get_user_ids_of_post_likes( tweet_id ):
 
+                if (user, user_fav) in favourite_links.keys():
+                    favourite_links[ (user, user_fav) ] += 1
+                else:
+                    favourite_links[ (user, user_fav) ] = 1
 
-    
+                if user_fav in users_favourite_links.keys():
+                    users_favourite_links[ user_fav ] += 1
+                else:
+                    users_favourite_links[ user_fav ] = 1
+        except:
+            print("An exception ocurred with user", user)
 
+    csvFile = open( 'results/users_fav.csv', 'a' )
+    #csvFile = open( 'results_little/users_fav_little.csv', 'a' )
+    csvWriter = csv.writer( csvFile )
+    csvWriter.writerow( [ 'user_id', 'num_fav' ] )
+    for key,value in users_favourite_links.items():
+        csvWriter.writerow( [ key, value ] )
+    csvFile.close()
+    csvFile = open( 'results/links_fav.csv', 'a' )
+    #csvFile = open( 'results_little/links_fav_little.csv', 'a' )
+    csvWriter = csv.writer( csvFile )
+    csvWriter.writerow( [ 'user1', 'user2', 'num_interactions' ] )
+    for key,value in favourite_links.items():
+        csvWriter.writerow( [ key[0], key[1], value ] )
+    csvFile.close()
 
-
-
-
+    exit(0)
