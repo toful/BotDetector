@@ -1,0 +1,7 @@
+jupyter
+tweepy
+pandas
+scikit-learn
+matplotlib
+seaborn
+tensorflow

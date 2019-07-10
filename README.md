@@ -13,19 +13,26 @@ In order to access Twitter Streaming API, we need to get the API key, API secret
 5. Click on "API keys" tab, and copy your "API key" and "API secret".
 6. Click on "Create my access token", and copy your "Access token" and "Access token secret".
 
-### Installing Jupyter with pip
+### Installing dependencies
+Can install all packages with the command:
+
+    pip install -r requirements.txt
+
+Or install each one of the packages:
+
+* **Installing Jupyter with pip**
 You can install Jupyter using Anaconda but you may wish to install Jupyter using Python’s package manager, pip, as I have done.
 If you have Python 3 installed:
 
-    python3 -m pip install --upgrade pip
-    python3 -m pip install jupyter
+        python3 -m pip install --upgrade pip
+        python3 -m pip install jupyter
 
 More information in: [Jupyter](https://jupyter.org/install.html)
 
-### Installing Tweepy
+* **Installing Tweepy**
 You can install the latest version by using pip/easy_install to pull it from PyPI:
 
-    pip install tweepy
+        pip install tweepy
 
 Or you can also use Git to clone the repository from GitHub and install it manually:
 
@@ -35,31 +42,31 @@ Or you can also use Git to clone the repository from GitHub and install it manua
 
 More information in: [Tweepy](https://tweepy.readthedocs.io/en/v3.5.0/)
 
-### Installing Pandas
+* **Installing Pandas**
 Pandas can be installed via pip from PyPI. [Pandas](https://pandas.pydata.org/pandas-docs/stable/install.html)
 
-    pip install pandas
+        pip install pandas
 
-### Installing scikit-learn
+* **Installing scikit-learn**
 If you already have a working installation of numpy and scipy, the easiest way to install scikit-learn is using pip. [scikit-learn](https://scikit-learn.org/stable/install.html)
 
-    pip install -U scikit-learn
+        pip install -U scikit-learn
 
-### Installing matplotlib
+* **Installing matplotlib**
 Matplotlib can be installed via pip from PyPI. [Matplotlib](https://matplotlib.org/3.1.0/users/installing.html) 
 
-    python -m pip install -U matplotlib
+        python -m pip install -U matplotlib
 
-### Installing seaborn
+* **Installing seaborn**
 Seaborn can be installed via pip from PyPI. [Seaborn](https://seaborn.pydata.org/installing.html) 
 
-    pip install seaborn
+        pip install seaborn
 
 
-### Installing Tensorflow
+* **Installing Tensorflow**
 Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.tensorflow.org/install)
 
-    pip install tensorflow
+        pip install tensorflow
 
 
 ## Author
