@@ -69,6 +69,35 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
     pip install tensorflow
 
 
+## Usage
+**1. Generate the models**
+```jupyter notebook DataAnalysis.ipynb```
+**2. Capture tweets containing a certain Hashtag**
+```python twitter_streaming.py [Hashtag]```
+**3. Process the tweets captured**  
+```python tweet_processor.py```
+
+
+## Structure
+```
+/
+├─db
+│  ├─
+├─src       
+│  ├─DataAnalysis.ipynb     From an existing dataset, generates the machine learning models to analyse the twitter users
+│  ├─twitter_streaming.py   Capture all tweets containing a hashtag specifyed by parameter
+│  ├─tweet_processor.py     Processes all tweets captured by the twitter streaming module
+│  ├─user_analyzer.py       Calculates the probability of a user of being a bot 
+│  ├─modules
+│  │    ├─aux_functions.py  Auxiliar funcions to generate the models input from a user
+│  ├─models         Folder that contains the machine learning algorithms
+│  ├─results        Folder that containd all results
+├─credentials.txt   File containing the Twitter API keys
+├─requirements.txt
+├─logo.jpg
+
+```
+
 ## Author
 
 * **Cristòfol Daudén Esmel** - [toful](https://github.com/toful)

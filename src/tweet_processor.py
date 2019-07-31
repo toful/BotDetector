@@ -30,7 +30,16 @@ def get_user_ids_of_post_likes(post_id):
     try:
         json_data = urllib2.urlopen( 'https://twitter.com/i/activity/favorited_popup?id=' + str(post_id) ).read()
         found_ids = re.findall( r'data-user-id=\\"+\d+', json_data )
-        unique_ids = list( set([re.findall(r'\d+', match)[0] for match in found_ids]))
+        unique_ids = list( set([re.findall(r'\d+', match)[0] for match in found_ids]) )
+        return unique_ids
+    except urllib2.HTTPError:
+        return False
+
+def get_user_ids_of_post_retweets(post_id):
+    try:
+        json_data = urllib2.urlopen( 'https://twitter.com/i/activity/retweeted_popup?id=' + str(post_id) ).read()
+        found_ids = re.findall( r'data-user-id=\\"+\d+', json_data )
+        unique_ids = list( set([re.findall(r'\d+', match)[0] for match in found_ids]) )
         return unique_ids
     except urllib2.HTTPError:
         return False
@@ -53,6 +62,9 @@ if __name__ == '__main__':
     #tweets = pd.read_csv( 'tweets_little.csv' )
     os.chdir( path )
 
+    if not os.path.exists( 'results' ):
+        os.makedirs( 'results' )
+
     #Generating the Users File
     users = {}
     for user in tweets['user_id']:
@@ -69,7 +81,6 @@ if __name__ == '__main__':
     for key,value in users.items():
         csvWriter.writerow( [ key, value ] )
     csvFile.close()
-
 
     #Generating the Users File and the Retweet links file
     print "Generating the Users File and the Retweet links file"
@@ -99,7 +110,6 @@ if __name__ == '__main__':
                     users_retweet_links[ user_rt ] = 1
         except:
             print("An exception ocurred with user", user)
-
     csvFile = open( 'results/users_rt.csv', 'a' )
     #csvFile = open( 'results_little/users_rt_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
@@ -142,7 +152,6 @@ if __name__ == '__main__':
                     users_favourite_links[ user_fav ] = 1
         except:
             print("An exception ocurred with user", user)
-
     csvFile = open( 'results/users_fav.csv', 'a' )
     #csvFile = open( 'results_little/users_fav_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
