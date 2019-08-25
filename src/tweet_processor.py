@@ -54,13 +54,21 @@ if __name__ == '__main__':
     auth.set_access_token( credentials[2], credentials[3] )   
     api = tweepy.API( auth, wait_on_rate_limit=True )
 
-    #Loading datasets
-    path = os.getcwd() 
-    os.chdir( "/home/toful/Documents/DataSets/" )
+    
+    if len(sys.argv) < 2:
+        print "ERROR: Few Arguments: [Input File]."
+        exit( 1 )
 
-    tweets = pd.read_csv( 'tweets.csv' )
-    #tweets = pd.read_csv( 'tweets_little.csv' )
-    os.chdir( path )
+    #Loading datasets
+    #path = os.getcwd() 
+    #os.chdir( "/home/toful/Documents/DataSets/" )
+    #tweets = pd.read_csv( 'tweets.csv' )
+    #os.chdir( path )
+    try:
+        tweets = pd.read_csv( sys.argv[1] )
+    except:
+        print("Input file doesn't exists.")
+        exit(1)
 
     if not os.path.exists( 'results' ):
         os.makedirs( 'results' )
@@ -96,8 +104,9 @@ if __name__ == '__main__':
             users_retweet_links[ user ] = 1
 
         try:
-            for retweet in api.retweets( tweet_id, 100000):
-                user_rt = retweet.author.id
+            #for retweet in api.retweets( tweet_id, 100000):
+            for user_rt in get_user_ids_of_post_retweets( tweet_id ):
+                #user_rt = retweet.author.id
 
                 if (user, user_rt) in retweet_links.keys():
                     retweet_links[ (user, user_rt) ] += 1
@@ -109,11 +118,11 @@ if __name__ == '__main__':
                 else:
                     users_retweet_links[ user_rt ] = 1
         except:
-            print("An exception ocurred with user", user)
+            print("An exception ocurred with user", user_rt)
     csvFile = open( 'results/users_rt.csv', 'a' )
     #csvFile = open( 'results_little/users_rt_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
-    csvWriter.writerow( [ 'user_id', 'num_rt' ] )
+    csvWriter.writerow( [ 'user_id', 'num_interactions' ] )
     for key,value in users_retweet_links.items():
         csvWriter.writerow( [ key, value ] )
     csvFile.close()
@@ -155,7 +164,7 @@ if __name__ == '__main__':
     csvFile = open( 'results/users_fav.csv', 'a' )
     #csvFile = open( 'results_little/users_fav_little.csv', 'a' )
     csvWriter = csv.writer( csvFile )
-    csvWriter.writerow( [ 'user_id', 'num_fav' ] )
+    csvWriter.writerow( [ 'user_id', 'num_interactions' ] )
     for key,value in users_favourite_links.items():
         csvWriter.writerow( [ key, value ] )
     csvFile.close()

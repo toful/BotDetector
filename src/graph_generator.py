@@ -17,27 +17,53 @@ def generate_graph(filename):
 
 if __name__ == '__main__':
 
-    #[ 'user_id', 'user_name', 'num_fav', 'bot_prob' ]
+    #[ 'user_id', 'user_name', 'num_interactions', 'bot_prob' ]
+
+    if len(sys.argv) < 3:
+        print( "ERROR: Few Arguments: [Nodes File] [Links File]." )
+        exit( 1 )
+
+    try:
+        nodes = pd.read_csv( sys.argv[1] )
+    except:
+        print("ERROR: Nodes file doesn't exists.")
+        exit(1)
+
+    try:
+        edges = pd.read_csv( sys.argv[2] )
+    except:
+        print("ERROR: Links file doesn't exists.")
+        exit(1)
 
     #cmap=plt.cm.RdBu
     cmap=plt.cm.seismic
 
     G = nx.DiGraph()
-    nodes = pd.read_csv( 'results_little/processed_users_fav_little.csv' )
     nodes_size = []
     nodes_color = []
-    for i in range( 0, len( nodes ) ):
-        nodes_size += [ nodes['num_fav'][i]*100 ]
-        nodes_color += [ cmap( nodes['bot_prob'][i] ) ]
-        G.add_node( nodes['user_id'][i], size=nodes['num_fav'][i]*100 )
+    try:
+        for i in range( 0, len( nodes ) ):
+            nodes_size += [ nodes['num_interactions'][i]*100 ]
+            nodes_color += [ cmap( nodes['bot_prob'][i] ) ]
+            G.add_node( nodes['user_id'][i], size=nodes['num_interactions'][i]*100 )
+    except:
+        print("ERROR: Wrong format in the nodes file, line ", i)
+        exit(1)
+
+    try:
+        for i in range( 0, len( edges ) ):
+            attributes = edges['num_interactions'][i]
+            G.add_edge( edges['user1'][i], edges['user2'][i] )
+    except:
+        print("ERROR: Wrong format in the links file, line ", i)
+        exit(1)
+
+    #some users re not analyzed due to their accounts have been removed or they are private so I will print these accounts as green points
+    for i in range( len(nodes), G.number_of_nodes() ):
+        nodes_size += [ 100 ]
+        nodes_color += [ (0.0, 1.0, 0.0, 1.0 ) ]
     
-
-    edges = pd.read_csv( 'results_little/links_fav_little.csv' )
-    for i in range( 0, len( edges ) ):
-        attributes = edges['num_interactions'][i]
-        G.add_edge( edges['user1'][i], edges['user2'][i] )
-
-    nx.draw(G, node_size=nodes_size, node_color=nodes_color, cmap=plt.cm.RdBu )
+    nx.draw(G, node_size=nodes_size, node_color=nodes_color, cmap=plt.cm.seismic )
     plt.show()
 
     # Wait for 5 seconds

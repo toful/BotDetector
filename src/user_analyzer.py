@@ -25,25 +25,23 @@ def read_credentials(filename):
         for line in fileref.readlines():
             credentials += [ line.splitlines()[0] ]
 
-
 #Drops all the information of the input user
 def print_user( user ):
-    print user.screen_name
+    print( user.screen_name )
     user_json = user._json
     for field in user_json.keys():
-        print field, "\t", user_json[ field ]
+        print( field, "\t", user_json[ field ] )
 
-    print "\tFriends: ", user.friends_count
+    print( "\tFriends: ", user.friends_count )
     for friend in user.friends():
-        print "\t", friend.screen_name
-    print "\n\tFollowers: ", user.followers_count
+        print( "\t", friend.screen_name )
+    print( "\n\tFollowers: ", user.followers_count )
     for follower in user.followers():
-        print "\t", follower.screen_name
+        print( "\t", follower.screen_name )
     return True
 
-
 #builds the prediction dataset input of the given user
-def get_dataset( user ):
+def get_user_data( user ):
     df = pd.DataFrame( user._json, index=[0] )
     x = pd.DataFrame()
     #x['id'] = df['id']
@@ -64,20 +62,19 @@ def get_dataset( user ):
     x['has_description'] = df.apply( lambda row: aux_functions.description (row), axis=1 )
     return x
 
-
 #predicts if the given user is a bot using the given model
 def analyze_user( model, user ):
     # getting the user data
-    x = get_dataset( user )
+    x = get_user_data( user )
     try:
         # prediction
         y_pred = model.predict( x )
         y_pred_prob = model.predict_proba( x )
         if y_pred: aux = ' is a Bot'
         else: aux = ' is not a Bot'
-        print 'User ', user.screen_name, aux,'\n\tProbability of being a Bot: ', float("{0:.2f}".format( y_pred_prob[0][1]*10 )),'/ 10'
+        print( 'User ', user.screen_name, aux,'\n\tProbability of being a Bot: ', float("{0:.2f}".format( y_pred_prob[0][1]*10 )),'/ 10')
     except:
-        print 'ERROR: something happend with user ', user.screen_name
+        print( 'ERROR: something happend with user ', user.screen_name )
 
 if __name__ == '__main__':
 
@@ -92,23 +89,32 @@ if __name__ == '__main__':
     auth.set_access_token( credentials[2], credentials[3] )   
     api = tweepy.API(auth)
 
+    # Fix Python 2.x.
+    try: input = raw_input
+    except NameError: pass
+
     if len(sys.argv) < 2:
-        print "ERROR: Twitter account needed."
-        exit( 0 )
+        print( "ERROR: Twitter account needed." )
+        exit( 1 )
     
-    user = api.get_user( sys.argv[1] )
+    try:
+        user = api.get_user( sys.argv[1] )
+    except:
+        print("ERROR: User doesn't exists or it has a private account.")
+        exit( 1 )
+
 
     #print_user( user )
     # load the model from disk
     models_string = "1-\tRandom Forest FakeFollowers model\n2-\tRandom Forest SpamBots model\n3-\tRandom Forest FFandSB model\n"
     try:
-        mode = int( raw_input( models_string+'Select the model you want to use: ' ) )
+        mode = int( input( models_string+'Select the model you want to use: ' ) )
     except ValueError:
-        print "ERROR: Not a number"
-        exit()
+        print( "ERROR: Not a number" )
+        exit( 1 )
     if mode > 3 or mode < 1:
-        print "ERROR: Not a valid option"
-        exit()
+        print( "ERROR: Not a valid option" )
+        exit( 1 )
 
     switcher = {
         1: 'models/randomForest_fakeFollowers_model.sav',
@@ -119,5 +125,9 @@ if __name__ == '__main__':
 
     # analyzing the user with the loaded model
     analyze_user( model, user )
-    for friend in user.friends( count=200 ):
-        analyze_user( model, friend )
+
+    mode = input( 'Do you want to analyze all your fiends too?(Y/N)' )
+    if mode == 'Y' or mode == 'y':
+        for friend in user.friends( count=200 ):
+            analyze_user( model, friend )
+    exit(0)

@@ -55,7 +55,6 @@ def analyze_user( model, user ):
     x = get_dataset( user )
     try:
         # prediction
-        y_pred = model.predict( x )
         y_pred_prob = model.predict_proba( x )
         return y_pred_prob[0][1]
     except:
@@ -68,6 +67,10 @@ if __name__ == '__main__':
     sys.path.append( os.getcwd()+'/modules' )
     import aux_functions
 
+    if len(sys.argv) < 3:
+        print "ERROR: Few Arguments: [Input File] [Output File]."
+        exit( 0 )
+
     #reading the authetification credentials
     read_credentials( '../credentials.txt' )
     #This handles Twitter authetification and the connection to Twitter Streaming API
@@ -75,24 +78,26 @@ if __name__ == '__main__':
     auth.set_access_token( credentials[2], credentials[3] )   
     api = tweepy.API( auth, wait_on_rate_limit=True )
 
-    mode = 2
-
-    switcher = {
-        1: 'models/randomForest_fakeFollowers_model.sav',
-        2: 'models/randomForest_mix_model.sav',
-        3: 'models/randomForest_spamBots_model.sav'
-    }
-    model = joblib.load( switcher.get(mode, "Invalid value") )
-
-    users = pd.read_csv( 'results_little/users_fav_little.csv' )
-    csvFile = open( 'results_little/processed_users_fav_little.csv', 'w' )
+    try:
+        model = joblib.load( 'models/randomForest_mix_model.sav' )
+    except:
+        print( "ERROR: Something wrong when loading the model" )
+        exit( 1 )
+    try:
+        users = pd.read_csv( sys.argv[1] )
+    except:
+        print( "ERROR: Input file doesn't exists" )
+        exit( 1 )
+    csvFile = open( sys.argv[2], 'w' )
     csvWriter = csv.writer( csvFile )
-    csvWriter.writerow( [ 'user_id', 'user_name', 'num_fav', 'bot_prob' ] )
+    csvWriter.writerow( [ 'user_id', 'user_name', 'num_interactions', 'bot_prob' ] )
     for i in range( 0, len( users ) ):
+        if( i % 1000 == 0 ):
+            print( i )
         try:
             user = api.get_user( users['user_id'][i] )
             prob = analyze_user( model, user )
-            csvWriter.writerow( [ users['user_id'][i], user.screen_name, users['num_fav'][i], prob ] )
+            csvWriter.writerow( [ users['user_id'][i], user.screen_name, users['num_interactions'][i], prob ] )
         except:
             print( 'Error on getting the user' )
     csvFile.close()

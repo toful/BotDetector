@@ -71,11 +71,24 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
 
 ## Usage
 **1. Generate the models**
-```jupyter notebook DataAnalysis.ipynb```
+
+    jupyter notebook DataAnalysis.ipynb
+
 **2. Capture tweets containing a certain Hashtag**
-```python twitter_streaming.py [Hashtag]```
+
+    python twitter_streaming.py [Hashtag]
+
 **3. Process the tweets captured**  
-```python tweet_processor.py```
+
+    python tweet_processor.py
+
+**4. Evaluate all users**
+
+    python user_processor.py
+
+**5. Generate the interacion graph**
+
+    python graph_generator.py
 
 
 ## Structure
@@ -87,7 +100,9 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
 │  ├─DataAnalysis.ipynb     From an existing dataset, generates the machine learning models to analyse the twitter users
 │  ├─twitter_streaming.py   Capture all tweets containing a hashtag specifyed by parameter
 │  ├─tweet_processor.py     Processes all tweets captured by the twitter streaming module
-│  ├─user_analyzer.py       Calculates the probability of a user of being a bot 
+│  ├─user_analyzer.py       Calculates the probability of a user of being a bot
+│  ├─user_processor.py      Calculates the probabilities of all users specifyed in the input file of being a bot
+│  ├─graph_generator.py     Generates the interaction graph between all users processed 
 │  ├─modules
 │  │    ├─aux_functions.py  Auxiliar funcions to generate the models input from a user
 │  ├─models         Folder that contains the machine learning algorithms
