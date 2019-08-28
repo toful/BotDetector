@@ -32,7 +32,7 @@ More information in: [Jupyter](https://jupyter.org/install.html)
 #### Installing Tweepy
 You can install the latest version by using pip/easy_install to pull it from PyPI:
 
-    pip install tweepy
+    pip3 install tweepy
 
 Or you can also use Git to clone the repository from GitHub and install it manually:
 
@@ -45,50 +45,45 @@ More information in: [Tweepy](https://tweepy.readthedocs.io/en/v3.5.0/)
 #### Installing Pandas
 Pandas can be installed via pip from PyPI. [Pandas](https://pandas.pydata.org/pandas-docs/stable/install.html)
 
-    pip install pandas
+    pip3 install pandas
 
 #### Installing scikit-learn
 If you already have a working installation of numpy and scipy, the easiest way to install scikit-learn is using pip. [scikit-learn](https://scikit-learn.org/stable/install.html)
 
-    pip install -U scikit-learn
+    pip3 install -U scikit-learn
 
 #### Installing matplotlib
 Matplotlib can be installed via pip from PyPI. [Matplotlib](https://matplotlib.org/3.1.0/users/installing.html) 
 
-    python -m pip install -U matplotlib
+    python3 -m pip install -U matplotlib
 
 #### Installing seaborn
 Seaborn can be installed via pip from PyPI. [Seaborn](https://seaborn.pydata.org/installing.html) 
 
-    pip install seaborn
+    pip3 install seaborn
 
 
 #### Installing Tensorflow
 Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.tensorflow.org/install)
 
-    pip install tensorflow
+    pip3 install tensorflow
 
 
 ## Usage
 **1. Generate the models**
-
-    jupyter notebook DataAnalysis.ipynb
+```jupyter notebook DataAnalysis.ipynb```
 
 **2. Capture tweets containing a certain Hashtag**
-
-    python twitter_streaming.py [Hashtag]
+```python tweet_collector.py [Hashtag]```
 
 **3. Process the tweets captured**  
-
-    python tweet_processor.py
+```python tweet_processor.py [tweets_file]```
 
 **4. Evaluate all users**
-
-    python user_processor.py
+```python user_processor.py [users_file]```
 
 **5. Generate the interacion graph**
-
-    python graph_generator.py
+```python graph_generator.py [users_file] [links_file]```
 
 
 ## Structure
@@ -98,7 +93,7 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
 │  ├─
 ├─src       
 │  ├─DataAnalysis.ipynb     From an existing dataset, generates the machine learning models to analyse the twitter users
-│  ├─twitter_streaming.py   Capture all tweets containing a hashtag specifyed by parameter
+│  ├─tweet_collector.py   Capture all tweets containing a hashtag specifyed by parameter
 │  ├─tweet_processor.py     Processes all tweets captured by the twitter streaming module
 │  ├─user_analyzer.py       Calculates the probability of a user of being a bot
 │  ├─user_processor.py      Calculates the probabilities of all users specifyed in the input file of being a bot
@@ -109,6 +104,7 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
 │  ├─results        Folder that containd all results
 ├─credentials.txt   File containing the Twitter API keys
 ├─requirements.txt
+├─LICENSE
 ├─logo.jpg
 
 ```

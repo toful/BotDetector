@@ -31,12 +31,13 @@ def get_dataset( user ):
     df = pd.DataFrame( user._json, index=[0] )
     x = pd.DataFrame()
     #x['id'] = df['id']
-    x['lang-en'] = df.apply( lambda row: aux_functions.language (row), axis=1 )
     x['profile_pic'] = df.apply( lambda row: aux_functions.profile_image (row), axis=1 ) #check this feature
     x['def_profile_pic'] = df.apply( lambda row: aux_functions.def_profile_image (row), axis=1 )
     x['has_screen_name'] = df.apply( lambda row: aux_functions.screen_name (row), axis=1 )
     x['30followers'] = df.apply( lambda row: aux_functions.min_followers (row, 30), axis=1 )
+    x['1000followers'] = df.apply( lambda row: aux_functions.min_followers2 (row, 1000), axis=1 )
     x['1000friends'] = df.apply( lambda row: aux_functions.min_friends (row, 1000), axis=1 )
+    x['30friends'] = df.apply( lambda row: aux_functions.min_friends2 (row, 30), axis=1 )
     x['twice_num_followers'] = df.apply( lambda row: aux_functions.ratio_followers (row), axis=1 )
     x['fifty_FriendsFollowersRatio'] = df.apply( lambda row: aux_functions.ratio_followers2 (row, 50), axis=1 )
     x['hundred_FriendsFollowersRatio'] = df.apply( lambda row: aux_functions.ratio_followers2 (row, 100), axis=1 )

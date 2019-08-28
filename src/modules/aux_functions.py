@@ -27,13 +27,6 @@ def screen_name (row):
     else:
         return 0
 
-# has NUM followers
-def min_followers (row, num):
-    if row['followers_count'] < num:
-        return 1
-    else:
-        return 0
-
 # is geolocalized
 def location (row):
     if row['geo_enabled'] == '':
@@ -76,6 +69,25 @@ def ratio_followers2 ( row, num ):
 # does not have NUM of friends, spambot
 def min_friends (row, num):
     if row['friends_count'] > num:
+        return 1
+    else:
+        return 0
+
+def min_friends2 (row, num):
+    if row['friends_count'] < num:
+        return 1
+    else:
+        return 0
+
+# has NUM followers
+def min_followers (row, num):
+    if row['followers_count'] < num:
+        return 1
+    else:
+        return 0
+
+def min_followers2 (row, num):
+    if row['followers_count'] > num:
         return 1
     else:
         return 0

@@ -56,7 +56,9 @@ if __name__ == '__main__':
     auth.set_access_token( credentials[2], credentials[3] )   
     api = tweepy.API(auth)
 
-    l = StdOutListener()
-    stream = Stream( auth, l )
+    hashtags = [ '#Elecciones2019', '#EleccionesMunicipales2019', '#EleccionsMunicipals2019', '#Elecciones26M' ]
+
+    listener = StdOutListener()
+    stream = Stream( auth, listener )
     # This line filter Twitter Streams to capture data containing the hashtag specified by argument
-    stream.filter(  track=[ '#Elecciones2019', '#EleccionesMunicipales2019', '#EleccionsMunicipals2019', '#Elecciones26M' ] )
+    stream.filter(  track=hashtags )
