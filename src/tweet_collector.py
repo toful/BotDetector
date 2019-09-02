@@ -25,15 +25,10 @@ def read_credentials(filename):
             credentials += [ line.splitlines()[0] ]
 
 
-#This is a basic listener that just prints received tweets to stdout.
+#This is the listener that store received tweets.
 class StdOutListener( StreamListener ):
-    def __init__( self ):
-        # Open/Create a file to append data
-        self.csvFile = open( 'tweets.csv', 'a' )
-        #Use csv Writer
-        self.csvWriter = csv.writer( self.csvFile )
-        #Write the data headers
-        self.csvWriter.writerow( [ 'tweet_id','user_id','in_replay_tweet_id','in_replay_user_id' ] )
+    def __init__( self, csvWriter ):
+        self.csvWriter = csvWriter
 
     def on_data(self, data):
         tweet = json.loads(data)
@@ -56,9 +51,22 @@ if __name__ == '__main__':
     auth.set_access_token( credentials[2], credentials[3] )   
     api = tweepy.API(auth)
 
-    hashtags = [ '#Elecciones2019', '#EleccionesMunicipales2019', '#EleccionsMunicipals2019', '#Elecciones26M' ]
+    if len(sys.argv) < 2:
+        print "ERROR: Few Arguments. Args: Hashtag1, Hashtag2, Hashtag3, ..."
+        exit( 1 )
 
-    listener = StdOutListener()
+    hashtags = sys.argv[1:]
+    #hashtags = [ '#Elecciones2019', '#EleccionesMunicipales2019', '#EleccionsMunicipals2019', '#Elecciones26M' ]
+
+    if not os.path.exists( 'results' ):
+        os.makedirs( 'results' )
+    # Open/Create a file to append data
+    csvFile = open( 'results/tweets.csv', 'a' )
+    csvWriter = csv.writer( csvFile )
+    #Write the data headers
+    csvWriter.writerow( [ 'tweet_id','user_id','in_replay_tweet_id','in_replay_user_id' ] )
+
+    listener = StdOutListener( csvWriter )
     stream = Stream( auth, listener )
     # This line filter Twitter Streams to capture data containing the hashtag specified by argument
-    stream.filter(  track=hashtags )
+    stream.filter(  track=hashtags ) #, async=True)

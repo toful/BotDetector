@@ -4,7 +4,7 @@ Final Degree project which consists in an application that allows you to disting
 ## Pre-requisites
 
 ### Getting Twitter API keys
-In order to access Twitter Streaming API, we need to get the API key, API secret, Access token and Access token secret from Twitter:
+In order to access Twitter's API, we need to get the API key, API secret, Access token and Access token secret from Twitter:
 
 1. Create a twitter account if you do not already have one.
 2. Go to https://apps.twitter.com/ and log.

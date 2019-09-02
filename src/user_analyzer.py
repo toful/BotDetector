@@ -73,15 +73,19 @@ def analyze_user( model, user ):
         y_pred_prob = model.predict_proba( x )
         if y_pred: aux = ' is a Bot'
         else: aux = ' is not a Bot'
-        print( 'User ', user.screen_name, aux,'\n\tProbability of being a Bot: ', float("{0:.2f}".format( y_pred_prob[0][1]*10 )),'/ 10')
+        print('User ', user.screen_name, aux,'\n\tProbability of being a Bot: ', float("{0:.2f}".format( y_pred_prob[0][1]*10 )),'/ 10')
     except:
         print( 'ERROR: something happend with user ', user.screen_name )
 
 if __name__ == '__main__':
 
-    #import auxiliary functions for the  dataset building 
-    sys.path.append( os.getcwd()+'/modules' )
-    import aux_functions
+    try:
+        #import auxiliary functions for the  dataset building 
+        sys.path.append( os.getcwd()+'/modules' )
+        import aux_functions
+    except:
+        print("ERROR importing auxiliary functions.")
+        exit(1)
 
     #reading the authetification credentials
     read_credentials( '../credentials.txt' )

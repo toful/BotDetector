@@ -47,12 +47,13 @@ def get_user_ids_of_post_retweets(post_id):
 
 if __name__ == '__main__':
 
+    #NOT USED, USING HTTP REQUESTS INSTEAD OF TWITTER API
     #reading the authetification credentials
-    read_credentials( '../credentials.txt' )
-    #This handles Twitter authetification and the connection to Twitter Streaming API
-    auth = OAuthHandler( credentials[0], credentials[1] )
-    auth.set_access_token( credentials[2], credentials[3] )   
-    api = tweepy.API( auth, wait_on_rate_limit=True )
+    #read_credentials( '../credentials.txt' )
+    #This handles Twitter authetification and the connection to Twitter API
+    #auth = OAuthHandler( credentials[0], credentials[1] )
+    #auth.set_access_token( credentials[2], credentials[3] )   
+    #api = tweepy.API( auth, wait_on_rate_limit=True )
 
     
     if len(sys.argv) < 2:

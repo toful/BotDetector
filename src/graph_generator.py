@@ -7,15 +7,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 
-def generate_graph(filename):
-    df = pd.read_csv( 'results_little/links_fav_little.csv' )
-    Graphtype = nx.Graph()
-    G = nx.from_pandas_edgelist( df, source='user1', target='user2', edge_attr='num_interactions', create_using=Graphtype)
-    #nx.draw( G )
-    nx.draw_random(G)
-    plt.show()
-
-
 if __name__ == '__main__':
 
     #[ 'user_id', 'user_name', 'num_interactions', 'bot_prob' ]
