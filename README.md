@@ -16,7 +16,7 @@ In order to access Twitter's API, we need to get the API key, API secret, Access
 ### Installing dependencies
 Can install all packages with the command:
 
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 
 Or install each one of the packages:
 
@@ -63,27 +63,27 @@ Seaborn can be installed via pip from PyPI. [Seaborn](https://seaborn.pydata.org
     pip3 install seaborn
 
 
-#### Installing Tensorflow
-Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.tensorflow.org/install)
-
-    pip3 install tensorflow
-
-
 ## Usage
-**1. Generate the models**
+### Data Analysis and Model Generation
+**Generate the models**
 ```jupyter notebook DataAnalysis.ipynb```
 
-**2. Capture tweets containing a certain Hashtag**
-```python tweet_collector.py [Hashtag]```
+### Tweet Analyzer tool
+**1. Capture tweets containing a certain Hashtag**
+```python3 tweet_collector.py [Hashtag]```
 
-**3. Process the tweets captured**  
-```python tweet_processor.py [tweets_file]```
+**2. Process the tweets captured**  
+```python3 tweet_processor.py [tweets_file]```
 
-**4. Evaluate all users**
-```python user_processor.py [users_file]```
+**3. Evaluate all users**
+```python3 user_processor.py [users_file]```
 
-**5. Generate the interacion graph**
-```python graph_generator.py [users_file] [links_file]```
+**4. Generate the interacion graph**
+```python3 graph_generator.py [users_file] [links_file]```
+
+### User Analyzer tool
+**1. Analze Twitter User's probability of being a Bot**
+```python3 user_analyzer.py [Hashtag]```
 
 
 ## Structure
@@ -105,7 +105,6 @@ Install TensorFlow with Python's pip package manager. [Tensorflow](https://www.t
 ├─credentials.txt   File containing the Twitter API keys
 ├─requirements.txt
 ├─LICENSE
-├─logo.jpg
 
 ```
 
