@@ -82,7 +82,7 @@ Seaborn can be installed via pip from PyPI. [Seaborn](https://seaborn.pydata.org
 ```python3 graph_generator.py [users_file] [links_file]```
 
 ### User Analyzer tool
-**1. Analze Twitter User's probability of being a Bot**
+**1. Analyze Twitter User's probability of being a Bot**
 ```python3 user_analyzer.py [Hashtag]```
 
 
