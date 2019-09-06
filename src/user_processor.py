@@ -9,7 +9,7 @@ import codecs
 import csv
 
 import pandas as pd
-from sklearn.externals import joblib
+import joblib
 
 #Variables that contains the user credentials to access Twitter API 
 #   consumer_key
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     import aux_functions
 
     if len(sys.argv) < 3:
-        print "ERROR: Few Arguments: [Input File] [Output File]."
+        print( "ERROR: Few Arguments: [Input File] [Output File].")
         exit( 0 )
 
     #reading the authetification credentials

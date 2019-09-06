@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     
     if len(sys.argv) < 2:
-        print "ERROR: Few Arguments: [Input File]."
+        print( "ERROR: Few Arguments: [Input File]." )
         exit( 1 )
 
     #Loading datasets
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     csvFile.close()
 
     #Generating the Users File and the Retweet links file
-    print "Generating the Users File and the Retweet links file"
+    print( "Generating the Users File and the Retweet links file" )
     users_retweet_links = {}
     retweet_links = {}
     for i in range( 0, len(tweets) ):
@@ -136,7 +136,7 @@ if __name__ == '__main__':
     csvFile.close()
 
     #Generating the Users File and the Favourite links file
-    print "Generating the Users File and the Favourite links file"
+    print( "Generating the Users File and the Favourite links file" )
     users_favourite_links = {}
     favourite_links = {}
     for i in range( 0, len(tweets) ):

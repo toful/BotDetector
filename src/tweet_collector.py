@@ -39,7 +39,7 @@ class StdOutListener( StreamListener ):
         return True
 
     def on_error(self, status):
-        print status
+        print( status )
 
 
 if __name__ == '__main__':
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     api = tweepy.API(auth)
 
     if len(sys.argv) < 2:
-        print "ERROR: Few Arguments. Args: Hashtag1, Hashtag2, Hashtag3, ..."
+        print( "ERROR: Few Arguments. Args: Hashtag1, Hashtag2, Hashtag3, ..." )
         exit( 1 )
 
     hashtags = sys.argv[1:]

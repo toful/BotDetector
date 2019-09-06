@@ -8,7 +8,7 @@ from tweepy import Stream
 import codecs
 
 import pandas as pd
-from sklearn.externals import joblib
+import joblib
 
 #Variables that contains the user credentials to access Twitter API 
 #   consumer_key

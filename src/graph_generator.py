@@ -55,10 +55,8 @@ if __name__ == '__main__':
         nodes_size += [ 1 ]
         nodes_color += [ (0.0, 1.0, 0.0, 1.0 ) ]
     
-
     fig, ax = plt.subplots()
     nx.draw(G, node_size=nodes_size, node_color=nodes_color, cmap=plt.cm.seismic )
-    
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=0, vmax=1))
     sm.set_array([])
     cbar = plt.colorbar(sm, fraction=0.046, pad=0.01)
