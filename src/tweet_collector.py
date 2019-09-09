@@ -66,7 +66,11 @@ if __name__ == '__main__':
     #Write the data headers
     csvWriter.writerow( [ 'tweet_id','user_id','in_replay_tweet_id','in_replay_user_id' ] )
 
-    listener = StdOutListener( csvWriter )
-    stream = Stream( auth, listener )
-    # This line filter Twitter Streams to capture data containing the hashtag specified by argument
-    stream.filter(  track=hashtags ) #, async=True)
+    try:
+        listener = StdOutListener( csvWriter )
+        stream = Stream( auth, listener )
+        # This line filter Twitter Streams to capture data containing the hashtag specified by argument
+        stream.filter(  track=hashtags ) #, async=True)
+    except KeyboardInterrupt:
+        print( "\nExit")
+        exit(0)
